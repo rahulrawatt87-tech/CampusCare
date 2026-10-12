@@ -71,10 +71,6 @@
                                 onclick="fillCreds('alex@campuscare.edu', 'student123')">
                             <i class="bi bi-mortarboard me-1"></i>Student (Alex)
                         </button>
-                        <button type="button" class="btn btn-sm btn-outline-success"
-                                onclick="fillCreds('faculty@campuscare.edu', 'student123')">
-                            <i class="bi bi-person-video3 me-1"></i>Faculty (Alan)
-                        </button>
                         <button type="button" class="btn btn-sm btn-outline-danger"
                                 onclick="fillCreds('admin@campuscare.edu', 'admin123')">
                             <i class="bi bi-shield-lock me-1"></i>Admin (Vance)
