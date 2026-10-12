@@ -52,10 +52,16 @@ public class ServerLauncher {
 
         // 3. Resolve Context Path (Render defaults to root "")
         String contextPath = System.getenv("SERVER_CONTEXT_PATH");
-        if (contextPath == null) {
-            contextPath = System.getProperty("server.contextPath");
+        if (contextPath != null) {
+            contextPath = contextPath.replace("\"", "").replace("'", "").trim();
         }
-        if (contextPath == null) {
+        if (contextPath == null || contextPath.isEmpty()) {
+            contextPath = System.getProperty("server.contextPath");
+            if (contextPath != null) {
+                contextPath = contextPath.replace("\"", "").replace("'", "").trim();
+            }
+        }
+        if (contextPath == null || contextPath.isEmpty()) {
             // Default to root in cloud if PORT is provided by Render, else /CampusCare
             contextPath = (envPort != null) ? "" : "/CampusCare";
         }
