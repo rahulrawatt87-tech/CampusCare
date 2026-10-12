@@ -58,21 +58,34 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-cc-primary w-100 py-2 fw-semibold">
+                    <button type="submit" class="btn btn-cc-primary w-100 py-2 fw-semibold" id="loginSubmitBtn">
                         Sign In <i class="bi bi-arrow-right ms-1"></i>
                     </button>
                 </form>
 
                 <!-- Quick Fill Buttons for Project Evaluator / Viva Demo -->
                 <div class="mt-4 pt-3 border-top">
-                    <div class="text-muted small fw-semibold mb-2 text-center">Quick Demo Sign-in:</div>
+                    <div class="text-muted small fw-semibold mb-2 text-center">Quick Demo Credentials:</div>
                     <div class="d-flex flex-wrap gap-2 justify-content-center">
                         <button type="button" class="btn btn-sm btn-outline-primary"
-                                onclick="fillCreds('alex@campuscare.edu', 'student123')">Student (Alex)</button>
+                                onclick="fillCreds('alex@campuscare.edu', 'student123')">
+                            <i class="bi bi-mortarboard me-1"></i>Student (Alex)
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-success"
+                                onclick="fillCreds('faculty@campuscare.edu', 'student123')">
+                            <i class="bi bi-person-video3 me-1"></i>Faculty (Alan)
+                        </button>
                         <button type="button" class="btn btn-sm btn-outline-danger"
-                                onclick="fillCreds('admin@campuscare.edu', 'admin123')">Admin (Vance)</button>
+                                onclick="fillCreds('admin@campuscare.edu', 'admin123')">
+                            <i class="bi bi-shield-lock me-1"></i>Admin (Vance)
+                        </button>
                         <button type="button" class="btn btn-sm btn-outline-warning text-dark"
-                                onclick="fillCreds('it.staff@campuscare.edu', 'staff123')">Staff (Priya)</button>
+                                onclick="fillCreds('it.staff@campuscare.edu', 'staff123')">
+                            <i class="bi bi-tools me-1"></i>Staff (Priya)
+                        </button>
+                    </div>
+                    <div class="text-muted text-center mt-2" style="font-size:0.75rem;">
+                        <i class="bi bi-info-circle me-1 text-primary"></i>Tap a demo role above to autofill, then click <strong>Sign In</strong>.
                     </div>
                 </div>
             </div>
@@ -87,10 +100,44 @@
 
 <script>
 function fillCreds(e, p) {
-    document.getElementById('email').value = e;
-    document.getElementById('password').value = p;
-    document.getElementById('loginForm').submit();
+    var emailInput = document.getElementById('email');
+    var passwordInput = document.getElementById('password');
+    var submitBtn = document.getElementById('loginSubmitBtn');
+
+    emailInput.value = e;
+    passwordInput.value = p;
+
+    // Visual feedback: brief highlight
+    emailInput.classList.add('border-primary');
+    passwordInput.classList.add('border-primary');
+    setTimeout(function() {
+        emailInput.classList.remove('border-primary');
+        passwordInput.classList.remove('border-primary');
+    }, 1200);
+
+    // Focus the Sign In button so the user can easily tap it
+    if (submitBtn) {
+        submitBtn.focus();
+    }
 }
+
+// Password toggle helper
+document.querySelectorAll('.toggle-password').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var targetId = this.getAttribute('data-target');
+        var input = document.getElementById(targetId);
+        var icon = this.querySelector('i');
+        if (input && icon) {
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+    });
+});
 </script>
 
 <jsp:include page="/WEB-INF/views/shared/footer.jsp"/>
