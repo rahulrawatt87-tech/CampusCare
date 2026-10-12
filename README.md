@@ -63,7 +63,7 @@ The relational database `campuscare_db` is implemented on MySQL 8.0 using InnoDB
 
 1. `departments`: ID, name, description, contact details, active flag.
 2. `categories`: ID, category name, description, default department mapping, active flag.
-3. `users`: ID, full name, email, student ID, department FK, course/year, phone, password hash, role (`STUDENT`, `ADMIN`, `STAFF`), active flag.
+3. `users`: ID, full name, email, student ID / employee ID, academic branch, department FK, course/designation, phone, password hash, role (`STUDENT`, `FACULTY`, `ADMIN`, `STAFF`), active flag.
 4. `complaints`: ID, ticket number (`CC-YYYY-XXXXXX` UNIQUE), student FK, title, category FK, location, description, priority, status, assigned department FK, assigned staff FK, notes, timestamps.
 5. `complaint_updates`: ID, complaint FK, updated_by FK, event type, old/new status, comment, visibility (`PUBLIC` / `INTERNAL`), created_at.
 6. `notifications`: ID, user FK, complaint FK, message, is_read, created_at.
@@ -79,11 +79,13 @@ Pre-seeded accounts configured for immediate testing:
 | Role | Email | Password | Name / Details |
 |---|---|---|---|
 | **Student** | `alex@campuscare.edu` | `student123` | Alex Morgan (B.Tech CSE - 3rd Year, `STU-2024-0042`) |
-| **Student** | `sarah@campuscare.edu` | `student123` | Sarah Jenkins (B.Tech ECE - 2nd Year, `STU-2024-0105`) |
+| **Faculty (Teacher)** | `faculty@campuscare.edu` | `student123` | Dr. Alan Walker (Associate Professor, CSE) |
 | **Administrator** | `admin@campuscare.edu` | `admin123` | Prof. Robert Vance (Chief Campus Administrator) |
 | **Staff (IT)** | `it.staff@campuscare.edu` | `staff123` | Priya Sharma (IT Support Lead) |
 | **Staff (Facilities)**| `facilities.staff@campuscare.edu` | `staff123` | Mark Reynolds (Facilities Supervisor) |
 | **Staff (Electrical)**| `electrical.staff@campuscare.edu` | `staff123` | Vikram Singh (Electrical Maintenance) |
+
+> **Institutional Admin Onboarding Key:** `CAMPUS-ADMIN-2026` (configured in `application.properties` to verify authorized administrator accounts).
 
 ---
 
