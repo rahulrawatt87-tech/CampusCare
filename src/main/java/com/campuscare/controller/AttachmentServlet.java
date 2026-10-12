@@ -57,7 +57,7 @@ public class AttachmentServlet extends HttpServlet {
         }
 
         // Authorization checks
-        if (currentUser.isStudent() && complaint.getUserId() != currentUser.getUserId()) {
+        if (currentUser.isComplainant() && complaint.getUserId() != currentUser.getUserId()) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied: You cannot view this attachment.");
             return;
         }

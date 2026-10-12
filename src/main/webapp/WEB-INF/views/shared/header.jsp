@@ -53,13 +53,14 @@
                                 <div class="badge bg-light text-dark border mt-1"><c:out value="${sessionScope.currentUser.role}"/></div>
                             </li>
                             <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/profile"><i class="bi bi-person me-2"></i>My Profile</a></li>
-                            <c:if test="${sessionScope.currentUser.student}">
-                                <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/student/dashboard"><i class="bi bi-speedometer2 me-2"></i>Student Workspace</a></li>
+                            <c:if test="${sessionScope.currentUser.student || sessionScope.currentUser.faculty}">
+                                <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/student/dashboard"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
                                 <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/complaints"><i class="bi bi-journal-text me-2"></i>My Complaints</a></li>
                             </c:if>
                             <c:if test="${sessionScope.currentUser.admin}">
                                 <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/admin/dashboard"><i class="bi bi-grid me-2"></i>Admin Dashboard</a></li>
                                 <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/admin/complaints"><i class="bi bi-inbox me-2"></i>Complaint Queue</a></li>
+                                <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/admin/staff"><i class="bi bi-people me-2"></i>Staff Directory</a></li>
                                 <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/admin/reports"><i class="bi bi-graph-up me-2"></i>Reports & Analytics</a></li>
                             </c:if>
                             <c:if test="${sessionScope.currentUser.staff}">

@@ -7,31 +7,17 @@ public class User {
     private String fullName;
     private String email;
     private String studentId;
-    private Integer departmentId;
+    private String academicBranch; // e.g. Computer Science & Engineering
+    private Integer departmentId; // Service department for Staff
     private String departmentName;
-    private String courseYear;
+    private String courseYear; // Year for student or Designation for faculty
     private String phone;
     private String passwordHash;
-    private String role; // STUDENT, ADMIN, STAFF
+    private String role; // STUDENT, FACULTY, ADMIN, STAFF
     private boolean active;
     private Timestamp createdAt;
 
     public User() {}
-
-    public User(int userId, String fullName, String email, String studentId, Integer departmentId,
-                String courseYear, String phone, String passwordHash, String role, boolean active, Timestamp createdAt) {
-        this.userId = userId;
-        this.fullName = fullName;
-        this.email = email;
-        this.studentId = studentId;
-        this.departmentId = departmentId;
-        this.courseYear = courseYear;
-        this.phone = phone;
-        this.passwordHash = passwordHash;
-        this.role = role;
-        this.active = active;
-        this.createdAt = createdAt;
-    }
 
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
@@ -44,6 +30,9 @@ public class User {
 
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
+
+    public String getAcademicBranch() { return academicBranch; }
+    public void setAcademicBranch(String academicBranch) { this.academicBranch = academicBranch; }
 
     public Integer getDepartmentId() { return departmentId; }
     public void setDepartmentId(Integer departmentId) { this.departmentId = departmentId; }
@@ -73,11 +62,19 @@ public class User {
         return "STUDENT".equalsIgnoreCase(this.role);
     }
 
+    public boolean isFaculty() {
+        return "FACULTY".equalsIgnoreCase(this.role);
+    }
+
     public boolean isAdmin() {
         return "ADMIN".equalsIgnoreCase(this.role);
     }
 
     public boolean isStaff() {
         return "STAFF".equalsIgnoreCase(this.role);
+    }
+
+    public boolean isComplainant() {
+        return isStudent() || isFaculty();
     }
 }

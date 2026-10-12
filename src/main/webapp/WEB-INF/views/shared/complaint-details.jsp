@@ -277,11 +277,11 @@
                             </li>
                             <c:if test="${sessionScope.currentUser.admin || sessionScope.currentUser.staff}">
                                 <li class="list-group-item d-flex justify-content-between align-items-center py-3">
-                                    <span class="text-muted">Student ID</span>
+                                    <span class="text-muted">Complainant ID</span>
                                     <span class="font-monospace text-dark"><c:out value="${complaint.studentId != null ? complaint.studentId : 'N/A'}"/></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center py-3">
-                                    <span class="text-muted">Student Email</span>
+                                    <span class="text-muted">Complainant Email</span>
                                     <span class="text-dark"><c:out value="${complaint.studentEmail}"/></span>
                                 </li>
                             </c:if>

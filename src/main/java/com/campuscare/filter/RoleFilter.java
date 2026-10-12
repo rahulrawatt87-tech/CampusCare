@@ -40,8 +40,9 @@ public class RoleFilter implements Filter {
                     return;
                 }
             } else if (relativePath.startsWith("/student")) {
-                if (!user.isStudent() && !user.isAdmin()) {
-                    // Admin can view or staff can view if needed, but normally redirect
+                if (!user.isComplainant() && !user.isAdmin()) {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied: Complainant privileges required.");
+                    return;
                 }
             }
         }

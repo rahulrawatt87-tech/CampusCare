@@ -127,8 +127,8 @@ public class ComplaintDetailServlet extends HttpServlet {
             if ("comment".equals(subAction)) {
                 String comment = request.getParameter("comment");
                 boolean isInternal = "true".equalsIgnoreCase(request.getParameter("isInternal"));
-                if (isInternal && currentUser.isStudent()) {
-                    isInternal = false; // Students cannot create internal notes
+                if (isInternal && currentUser.isComplainant()) {
+                    isInternal = false; // Complainants cannot create internal notes
                 }
                 complaintService.addComment(complaint, comment, isInternal, currentUser);
                 response.sendRedirect(request.getContextPath() + "/complaints/" + ticketNumber + "?msg=comment_added");

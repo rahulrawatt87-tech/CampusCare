@@ -47,9 +47,11 @@
                                 <div class="form-text">Primary college identity email cannot be altered directly.</div>
                             </div>
 
-                            <c:if test="${user.student}">
+                            <c:if test="${user.student || user.faculty}">
                                 <div class="mb-3">
-                                    <label class="form-label small fw-semibold text-secondary">Student ID / Registration</label>
+                                    <label class="form-label small fw-semibold text-secondary">
+                                        <c:out value="${user.faculty ? 'Faculty / Employee ID' : 'Student ID / Registration'}"/>
+                                    </label>
                                     <input type="text" class="form-control bg-light font-monospace" value="<c:out value='${user.studentId}'/>" readonly disabled>
                                 </div>
                             </c:if>
@@ -64,22 +66,23 @@
                                 <input type="tel" class="form-control" name="phone" value="<c:out value='${user.phone != null ? user.phone : \"\"}'/>">
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label small fw-semibold text-secondary">Department</label>
-                                <select class="form-select" name="departmentId">
-                                    <option value="">Select Department...</option>
-                                    <c:forEach var="dept" items="${departments}">
-                                        <option value="${dept.departmentId}" ${user.departmentId == dept.departmentId ? 'selected' : ''}>
-                                            <c:out value="${dept.departmentName}"/>
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
-                            <c:if test="${user.student}">
+                            <c:if test="${user.student || user.faculty}">
                                 <div class="mb-3">
-                                    <label class="form-label small fw-semibold text-secondary">Course & Year</label>
-                                    <input type="text" class="form-control" name="courseYear" value="<c:out value='${user.courseYear != null ? user.courseYear : \"\"}'/>" placeholder="e.g. B.Tech CSE - 3rd Year">
+                                    <label class="form-label small fw-semibold text-secondary">Academic Department / Branch</label>
+                                    <input type="text" class="form-control" name="academicBranch" value="<c:out value='${user.academicBranch != null ? user.academicBranch : \"\"}'/>" placeholder="e.g. Computer Science & Engineering">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-semibold text-secondary">
+                                        <c:out value="${user.faculty ? 'Designation / Title' : 'Course & Year'}"/>
+                                    </label>
+                                    <input type="text" class="form-control" name="courseYear" value="<c:out value='${user.courseYear != null ? user.courseYear : \"\"}'/>" placeholder="${user.faculty ? 'e.g. Associate Professor' : 'e.g. B.Tech CSE - 3rd Year'}">
+                                </div>
+                            </c:if>
+
+                            <c:if test="${user.staff}">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-semibold text-secondary">Assigned Service Department</label>
+                                    <input type="text" class="form-control bg-light" value="<c:out value='${user.departmentName != null ? user.departmentName : \"General Maintenance\"}'/>" readonly disabled>
                                 </div>
                             </c:if>
 

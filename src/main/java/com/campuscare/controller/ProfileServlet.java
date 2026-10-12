@@ -106,11 +106,14 @@ public class ProfileServlet extends HttpServlet {
             try { deptId = Integer.parseInt(deptIdStr.trim()); } catch (NumberFormatException ignored) {}
         }
 
+        String academicBranch = request.getParameter("academicBranch");
+
         User updateObj = new User();
         updateObj.setUserId(user.getUserId());
         updateObj.setFullName(fullName.trim());
         updateObj.setPhone(phone != null ? phone.trim() : null);
         updateObj.setCourseYear(courseYear != null ? courseYear.trim() : null);
+        updateObj.setAcademicBranch(academicBranch != null ? academicBranch.trim() : null);
         updateObj.setDepartmentId(deptId);
 
         userDAO.updateProfile(updateObj);

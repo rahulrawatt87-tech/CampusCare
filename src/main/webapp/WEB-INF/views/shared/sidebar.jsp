@@ -3,9 +3,9 @@
 
 <aside class="cc-sidebar">
     <c:choose>
-        <%-- STUDENT WORKSPACE SIDEBAR --%>
-        <c:when test="${sessionScope.currentUser.student}">
-            <div class="sidebar-heading">Student workspace</div>
+        <%-- STUDENT & FACULTY WORKSPACE SIDEBAR --%>
+        <c:when test="${sessionScope.currentUser.student || sessionScope.currentUser.faculty}">
+            <div class="sidebar-heading"><c:out value="${sessionScope.currentUser.faculty ? 'Faculty workspace' : 'Student workspace'}"/></div>
             <ul class="sidebar-nav">
                 <li>
                     <a href="${pageContext.request.contextPath}/student/dashboard" class="sidebar-link ${activeNav == 'dashboard' ? 'active' : ''}">
@@ -63,6 +63,12 @@
                     <a href="${pageContext.request.contextPath}/admin/departments" class="sidebar-link ${activeNav == 'departments' ? 'active' : ''}">
                         <i class="bi bi-building"></i>
                         <span>Departments</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/admin/staff" class="sidebar-link ${activeNav == 'staff' ? 'active' : ''}">
+                        <i class="bi bi-people"></i>
+                        <span>Staff & Technicians</span>
                     </a>
                 </li>
                 <li>

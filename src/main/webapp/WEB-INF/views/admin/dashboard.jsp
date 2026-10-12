@@ -16,6 +16,9 @@
                 <p class="text-muted small mb-0">Review new reports, assign work and monitor resolution across campus departments.</p>
             </div>
             <div class="d-flex gap-2">
+                <a href="${pageContext.request.contextPath}/admin/staff" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-people me-1"></i> Staff Directory
+                </a>
                 <a href="${pageContext.request.contextPath}/admin/reports" class="btn btn-outline-secondary btn-sm">
                     <i class="bi bi-bar-chart me-1"></i> Reports & Analytics
                 </a>

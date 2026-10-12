@@ -116,8 +116,8 @@ public class ComplaintService {
         }
 
         // Access check
-        if (currentUser.isStudent() && c.getUserId() != currentUser.getUserId()) {
-            throw new IllegalAccessException("Access Denied: You cannot view another student's complaint.");
+        if (currentUser.isComplainant() && c.getUserId() != currentUser.getUserId()) {
+            throw new IllegalAccessException("Access Denied: You cannot view another user's complaint.");
         }
 
         if (currentUser.isStaff()) {
@@ -333,9 +333,9 @@ public class ComplaintService {
             throw new IllegalArgumentException("A reason is required to reopen a complaint.");
         }
 
-        // Student owner or Admin can reopen
-        if (actor.isStudent() && actor.getUserId() != complaint.getUserId()) {
-            throw new IllegalAccessException("You cannot reopen another student's complaint.");
+        // Complainant owner or Admin can reopen
+        if (actor.isComplainant() && actor.getUserId() != complaint.getUserId()) {
+            throw new IllegalAccessException("You cannot reopen another user's complaint.");
         }
 
         return changeStatus(complaint, "REOPENED", "Complaint reopened: " + reason.trim(), null, null, actor);
@@ -361,8 +361,8 @@ public class ComplaintService {
         }
 
         if ("RESOLVED".equals(target)) {
-            if (actor.isStudent()) {
-                throw new IllegalArgumentException("Students cannot mark complaints as resolved.");
+            if (actor.isComplainant()) {
+                throw new IllegalArgumentException("Complainants cannot mark complaints as resolved.");
             }
             if (!ValidationUtil.isNotEmpty(resolutionNotes)) {
                 throw new IllegalArgumentException("Resolution notes are required when marking a complaint as resolved.");
@@ -392,8 +392,8 @@ public class ComplaintService {
         }
 
         if ("IN_PROGRESS".equals(target)) {
-            if (actor.isStudent()) {
-                throw new IllegalArgumentException("Students cannot change complaint to In Progress.");
+            if (actor.isComplainant()) {
+                throw new IllegalArgumentException("Complainants cannot change complaint to In Progress.");
             }
             return;
         }
