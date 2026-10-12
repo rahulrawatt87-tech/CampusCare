@@ -8,7 +8,8 @@ import java.util.Properties;
 
 /**
  * Thread-safe Database Connection utility.
- * Loads configuration from application.properties with fallback defaults.
+ * Supports cloud deployment environment variables (Render, Heroku, Docker)
+ * with graceful fallback to application.properties.
  */
 public class DBConnection {
 
@@ -16,6 +17,7 @@ public class DBConnection {
     private static String user;
     private static String password;
     private static String driver;
+    private static volatile boolean initialized = false;
 
     static {
         loadProperties();
@@ -31,23 +33,60 @@ public class DBConnection {
             System.err.println("Warning: Could not load application.properties, using defaults. " + e.getMessage());
         }
 
-        driver = props.getProperty("db.driver", "com.mysql.cj.jdbc.Driver");
-        url = props.getProperty("db.url", "jdbc:mysql://localhost:3306/campuscare_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8");
-        user = props.getProperty("db.user", "root");
-        password = props.getProperty("db.password", "root");
+        // 1. Database Driver
+        String envDriver = System.getenv("DB_DRIVER");
+        driver = (envDriver != null && !envDriver.trim().isEmpty())
+                ? envDriver.trim()
+                : props.getProperty("db.driver", "com.mysql.cj.jdbc.Driver");
+
+        // 2. Database URL (supports DB_URL, DATABASE_URL, or application.properties)
+        String envUrl = System.getenv("DB_URL");
+        if (envUrl == null || envUrl.trim().isEmpty()) {
+            envUrl = System.getenv("DATABASE_URL");
+        }
+        url = (envUrl != null && !envUrl.trim().isEmpty())
+                ? envUrl.trim()
+                : props.getProperty("db.url", "jdbc:mysql://localhost:3306/campuscare_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8");
+
+        // 3. Database Username
+        String envUser = System.getenv("DB_USER");
+        if (envUser == null || envUser.trim().isEmpty()) {
+            envUser = System.getenv("DATABASE_USER");
+        }
+        user = (envUser != null && !envUser.trim().isEmpty())
+                ? envUser.trim()
+                : props.getProperty("db.user", "root");
+
+        // 4. Database Password
+        String envPass = System.getenv("DB_PASSWORD");
+        if (envPass == null) {
+            envPass = System.getenv("DATABASE_PASSWORD");
+        }
+        password = (envPass != null)
+                ? envPass
+                : props.getProperty("db.password", "root");
 
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("MySQL JDBC Driver not found: " + driver, e);
+            throw new RuntimeException("Database JDBC Driver not found: " + driver, e);
         }
     }
 
     /**
-     * Obtains a new database connection.
+     * Obtains a database connection, automatically initializing tables if needed on fresh deployments.
      */
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
+        Connection conn = DriverManager.getConnection(url, user, password);
+        if (!initialized) {
+            synchronized (DBConnection.class) {
+                if (!initialized) {
+                    DatabaseInitializer.initializeIfNeeded(conn);
+                    initialized = true;
+                }
+            }
+        }
+        return conn;
     }
 
     /**

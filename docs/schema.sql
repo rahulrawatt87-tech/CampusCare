@@ -33,11 +33,12 @@ CREATE TABLE IF NOT EXISTS users (
     full_name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     student_id VARCHAR(50) UNIQUE NULL,
+    academic_branch VARCHAR(100) NULL,
     department_id INT NULL,
     course_year VARCHAR(60) NULL,
     phone VARCHAR(30) NULL,
     password_hash VARCHAR(255) NOT NULL,
-    role ENUM('STUDENT', 'ADMIN', 'STAFF') NOT NULL DEFAULT 'STUDENT',
+    role ENUM('STUDENT', 'FACULTY', 'ADMIN', 'STAFF') NOT NULL DEFAULT 'STUDENT',
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (department_id) REFERENCES departments(department_id)
